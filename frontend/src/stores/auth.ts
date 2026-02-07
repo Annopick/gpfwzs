@@ -27,6 +27,9 @@ export const useAuthStore = defineStore('auth', () => {
   // 解析JWT
   function parseJwt(jwt: string): JwtPayload {
     const base64Url = jwt.split('.')[1];
+    if (!base64Url) {
+      throw new Error('Invalid JWT format');
+    }
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
       atob(base64)

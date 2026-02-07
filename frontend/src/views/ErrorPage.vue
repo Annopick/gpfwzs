@@ -6,7 +6,12 @@ const router = useRouter();
 
 const reason = route.query.reason as string;
 
-const errorMessages: Record<string, { title: string; message: string }> = {
+interface ErrorInfo {
+  title: string;
+  message: string;
+}
+
+const errorMessages: Record<string, ErrorInfo> = {
   whitelist_failed: {
     title: '访问受限',
     message: '您的账号不在授权白名单中，请联系管理员申请访问权限。'
@@ -17,7 +22,10 @@ const errorMessages: Record<string, { title: string; message: string }> = {
   }
 };
 
-const errorInfo = errorMessages[reason] || errorMessages.default;
+const errorInfo: ErrorInfo = errorMessages[reason] || {
+  title: '出错了',
+  message: '系统遇到了一些问题，请稍后重试。'
+};
 
 function goBack() {
   router.push({ name: 'Login' });

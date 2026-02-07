@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { marked } from 'marked';
 import type { ChatMessage } from '@/types/chat';
 

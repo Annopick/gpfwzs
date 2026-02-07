@@ -44,12 +44,12 @@ export const useChatStore = defineStore('chat', () => {
           conversation_id: conversationId.value
         },
         {
-          onMessage: (text) => {
+          onMessage: (text: string) => {
             if (currentAssistantMessage.value) {
               currentAssistantMessage.value.content += text;
             }
           },
-          onEnd: async (convId) => {
+          onEnd: async (convId: string) => {
             conversationId.value = convId;
             // 保存会话ID到后端
             try {
@@ -58,7 +58,7 @@ export const useChatStore = defineStore('chat', () => {
               console.error('Failed to save conversation:', e);
             }
           },
-          onError: (error) => {
+          onError: (error: Error) => {
             console.error('SSE error:', error);
             if (currentAssistantMessage.value) {
               currentAssistantMessage.value.content = '抱歉，发生了错误，请稍后重试。';
