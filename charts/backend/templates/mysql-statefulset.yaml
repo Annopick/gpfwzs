@@ -1,0 +1,61 @@
+{{- if .Values.mysql.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-mysql
+  labels:
+    app: {{ .Release.Name }}-mysql
+spec:
+  serviceName: {{ .Release.Name }}-mysql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-mysql
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-mysql
+    spec:
+      containers:
+        - name: mysql
+          image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}"
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-backend-secret
+                  key: mysql-root-password
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.database }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.user }}
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-backend-secret
+                  key: mysql-password
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        {{- if .Values.mysql.storageClassName }}
+        storageClassName: {{ .Values.mysql.storageClassName }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.mysql.storage }}
+{{- end }}

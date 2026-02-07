@@ -1,0 +1,154 @@
+@use './variables' as *;
+
+// 重置样式
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  background-color: $color-background;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+// 滚动条样式
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-border;
+  border-radius: 3px;
+  
+  &:hover {
+    background: $color-text-secondary;
+  }
+}
+
+// 链接样式
+a {
+  color: $color-primary;
+  text-decoration: none;
+  
+  &:hover {
+    color: $color-primary-light;
+  }
+}
+
+// 按钮基础样式
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// 输入框基础样式
+input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  
+  &::placeholder {
+    color: $color-text-placeholder;
+  }
+}
+
+// 通用类
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 过渡动画
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity $transition-base;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform $transition-base;
+}
+
+.slide-left-enter-from {
+  transform: translateX(-100%);
+}
+
+.slide-left-leave-to {
+  transform: translateX(-100%);
+}
+
+// 主按钮样式
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $color-primary;
+  color: #fff;
+  border-radius: $border-radius-base;
+  font-size: $font-size-base;
+  font-weight: 500;
+  transition: background-color $transition-fast;
+  
+  &:hover:not(:disabled) {
+    background-color: $color-primary-light;
+  }
+  
+  &:active:not(:disabled) {
+    background-color: $color-primary-dark;
+  }
+}
+
+// 卡片样式
+.card {
+  background-color: $color-background;
+  border-radius: $border-radius-base;
+  box-shadow: $shadow-light;
+}

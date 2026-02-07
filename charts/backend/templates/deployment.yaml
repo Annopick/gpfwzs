@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-backend
+  labels:
+    app: {{ .Release.Name }}-backend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-backend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-backend
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://{{ .Release.Name }}-mysql:3306/{{ .Values.mysql.database }}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.mysql.user }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-backend-secret
+                  key: mysql-password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-backend-secret
+                  key: jwt-secret
+            - name: OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-backend-secret
+                  key: oauth-client-id
+            - name: OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-backend-secret
+                  key: oauth-client-secret
+            - name: OAUTH_REDIRECT_URI
+              value: {{ .Values.config.oauth.redirectUri | quote }}
+            - name: DIFY_API_URL
+              value: {{ .Values.config.dify.apiUrl | quote }}
+            - name: DIFY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-backend-secret
+                  key: dify-api-key
+            - name: FRONTEND_URL
+              value: {{ .Values.config.frontendUrl | quote }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

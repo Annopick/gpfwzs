@@ -1,0 +1,30 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-backend-ingress
+  labels:
+    app: {{ .Release.Name }}-backend
+  annotations:
+    kubesphere.io/alias-name: "股票分析路由"
+    kubesphere.io/creator: "admin"
+    kubesphere.io/description: "股票分析路由"
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Release.Name }}-backend
+                port:
+                  number: {{ .Values.service.port }}
+{{- end }}

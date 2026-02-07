@@ -1,0 +1,54 @@
+replicaCount: 2
+
+image:
+  repository: gpfwzs-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+# MySQL configuration
+mysql:
+  enabled: true
+  image:
+    repository: mysql
+    tag: 8.0-debian
+  storage: 10Gi
+  storageClassName: ""
+  rootPassword: changeme-root
+  database: gpfwzs
+  user: gpfwzs
+  password: changeme-user
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  host: ""
+  annotations: {}
+
+# Application configuration
+config:
+  jwtSecret: ""
+  oauth:
+    clientId: ""
+    clientSecret: ""
+    redirectUri: ""
+  dify:
+    apiUrl: ""
+    apiKey: ""
+  frontendUrl: ""
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
