@@ -4,6 +4,7 @@ frontend/dist/
 frontend/.env.local
 frontend/.env.development
 frontend/*.local
+frontend/.vite/**
 
 # Backend
 backend/target/
@@ -37,3 +38,6 @@ logs/
 # Test
 coverage/
 .nyc_output/
+
+
+
