@@ -61,8 +61,8 @@ jobs:
           cd frontend
           tar -czvf dist.tar.gz dist
           cd ..
-          sed 's|__BACKEND_URL__|${{ secrets.BACKEND_URL }}|g' nginx.conf > nginx.conf.prepared
-          sed 's|__BACKEND_HOST__|${{ secrets.BACKEND_HOST }}|g' nginx.conf.prepared > nginx.conf.prepared
+          sed 's|__BACKEND_URL__|${{ secrets.BACKEND_URL }}|g' nginx.conf > nginx.conf.tmp
+          sed 's|__BACKEND_HOST__|${{ secrets.BACKEND_HOST }}|g' nginx.conf.tmp > nginx.conf.prepared
 
       - name: Deploy dist to server
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
