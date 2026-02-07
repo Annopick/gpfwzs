@@ -1,0 +1,25 @@
+apiVersion: v1
+entries:
+  gpfwzs-backend:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-02-07T15:58:40.397554713Z"
+    description: Backend Helm chart for GPFWZS AI Chat Application (includes MySQL)
+    digest: c5568a7b529a39cbbff1ab49e56865be8878e80606659b622dd4b23c31993c91
+    name: gpfwzs-backend
+    type: application
+    urls:
+    - https://Annopick.github.io/gpfwzs/gpfwzs-backend-0.1.0.tgz
+    version: 0.1.0
+  gpfwzs-frontend:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-02-07T15:58:40.397780592Z"
+    description: Frontend Helm chart for GPFWZS AI Chat Application
+    digest: 7c6d13be10acc831ba3933ac98ac76cdce21885fc6d55fa1db232c577d048e45
+    name: gpfwzs-frontend
+    type: application
+    urls:
+    - https://Annopick.github.io/gpfwzs/gpfwzs-frontend-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-02-07T15:58:40.39708961Z"
